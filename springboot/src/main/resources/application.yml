@@ -1,0 +1,12 @@
+#连接数据库
+spring.datasource.driver-class-name: com.mysql.jdbc.Driver #配置驱动器名称，在springboot中可以不配置
+spring.datasource.url: jdbc:mysql://localhost:3306/web2?useUnicode=true&characterEncoding=utf8
+spring.datasource.username: root
+spring.datasource.password: 111111
+spring.datasource.type: com.alibaba.druid.pool.DruidDataSource
+
+#配置mybatis
+mybatis:
+#mapper-locations: com/hmk/springboot/dao
+mapper-locations: classpath:mapper/*.xml
+type-alias-package: com.hmk.springboot.entity

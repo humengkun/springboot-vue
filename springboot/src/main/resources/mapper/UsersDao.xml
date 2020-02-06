@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hmk.springboot.dao.UsersDao">
+    <!--1.列出用户列表，展示用户信息-->
+    <select id="getAllUserList" resultType="com.hmk.springboot.entity.Users">
+        SELECT users.id,users.name,users.password,users.phone,users.email,users.address,users.description
+         FROM users;
+    </select>
+    <!--2.增加新用户（做name唯一性验证，做phone，email格式验证）-->
+    <insert id="insert" parameterType="com.hmk.springboot.entity.Users" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO users(id,name,password,phone,email,address,description)
+        VALUES (#{id},#{name},#{password},#{phone},#{email},#{address},#{description})
+    </insert>
+    <!--3.通过name查询用户列表-->
+    <select id="getUserByName" resultType="com.hmk.springboot.entity.Users">
+        SELECT users.id,users.name,users.password,users.phone,users.email,users.address,users.description
+         FROM users WHERE name = #{name};
+    </select>
+    <!--4.通过id更新用户信息-->
+    <update id="update" parameterType="com.hmk.springboot.entity.Users">
+        UPDATE users SET name = #{name},password = #{password},phone = #{phone},
+        email = #{email},address = #{address},description = #{description} WHERE id=#{id}
+    </update>
+    <!--通过id查询用户-->
+    <select id="getById" resultType="com.hmk.springboot.entity.Users">
+        select users.id,users.name,users.password,users.phone,users.email,users.address,users.description
+        from users where id = #{id}
+    </select>
+
+    <!--5.通过id删除用户-->
+    <delete id="deleteById">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
+    <!--分页查询-->
+    <select id="findByPager" resultType="com.hmk.springboot.entity.Users">
+	select * from users limit #{page},#{size}
+    </select>
+        <select id="count" resultType="int">
+        select count(1) from users
+    </select>
+
+    <!--模糊查询 /* or phone like CONCAT('%',#{phone},'%')*/-->
+    <select id="searchByParameter" resultType="com.hmk.springboot.entity.Users">
+        select * from users where name like CONCAT('%',#{name},'%')
+        or phone like CONCAT('%',#{phone},'%')
+    </select>
+
+
+</mapper>
